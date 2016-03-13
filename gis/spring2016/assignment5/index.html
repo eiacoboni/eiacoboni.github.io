@@ -2,30 +2,99 @@
 <html>
     <head>
         <style>
-            p {
-                color: white;
-                font-size: 35px;
-                background-color: black;
+            body{
+                background-color: azure;
+            }
+            #h1 {
+                color: black;
+                background-color:azure;
+                font-family: "arial";
+                font-size: 50px;
+                margin-left: 50px;
+                margin-right: 50px;
+                height: 100px;
+            }
+            #h2 {
+                color: grey;
+                background-color: white;
+                font-family: "arial";
+                font-size: 15px;
+                padding-left: 100px;
+                padding-right: 100px;
+                margin-left: 25px;
+                margin-right: 25px;
+            }
+            #button {
+                height: 50px;
+                background-color: lightblue;
+                font-size: 20px;
+                padding-left: 20px;
+                padding-bottom: 20px;
+                padding-right: 100px;
+                padding-top: 20px;
+                margin-left: 350px;
+                margin-right: 25px;
+                margin-top:10px;
+                font-family: "arial";
             }
         </style>
     </head>
     <body>
+        <div id="h1">
         <p>
-Welcome to my site for <strong> Advanced GIS </strong>
-    </p>
-    <p> 
-Please find part one below:
-    </p>
-    <iframe width="100%" height="520" frameborder="0" src="https://eiacoboni.cartodb.com/viz/e8f73c98-db64-11e5-b451-0e674067d321/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
-    <p>
-    This map shows the location and amount of rail transit stations in New Jersey. <br> <em>Click</em> on the town to see more informaiton about population, and number of transit stations.
-    </p>
-    <p>
-    In other news, take a look at this overstuffed walrus:
-    </p>
-    <img width="520" height="520" frameborder= "0" scr="http://eiacoboni.neocities.org/IMG_1029.jpg" />
-    <p>
-    You can find out more informaiton on him, <a href="http://www.horniman.ac.uk/collections/highlights/object/190371/page/4/highlight/on"> here</a>. 
-    </p>
-    </body>
-</html>
+        Evan Iacoboni
+        </p>
+        </div>
+        <div id="h2">
+        <p>
+        See open data showing AirBnB listings for Boston. This data is from NAME OF WEBSITE HERE. Click on the buttons bellow to filter the listing data.
+        </p>
+        </div>
+        <iframe width="100%" height="520" frameborder="0" src="https://eiacoboni.cartodb.com/viz/1a307ae0-dda9-11e5-98e0-0ecfd53eb7d3/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+        <div id="button">
+    Bed Type:
+<form action="bedtype.php">
+    <select name="Bed Type">
+        <option>Real Bed</option>
+        <option>Air Bed</option>
+        <option>Couch</option>
+        <option>Futon</option>
+        <option>Pull-out</option>
+    </select>
+    <input type="submit">
+    </div>
+    <div id="button">
+    Neighborhood:
+<form action="neighborhood.php">
+    <select name="Neighborhood">
+        <option>North End</option>
+        <option>Roxbury</option>
+        <option>Jamaica Plain</option>
+        <option>Mission Hill</option>
+        <option>Chinatown</option>
+        <option>Roslindale</option>
+        <option>South End</option>
+        <option>Roxbury</option>
+        <option>East End</option>
+        <option>Back Bay</option>
+        <option>West End</option>
+        <option>Fenway</option>
+        <option>Brighton</option>
+        <option>Dorchester</option>
+        <option>Hyde Park</option>
+    </select>
+    <input type="submit">
+</form>
+    </div>
+    <div id="button">
+    Type:
+<form action="neighborhood.php">
+    <select name="Neighborhood">
+        <option>Private room (</option>
+        <option>Entire home/apt</option>
+        <option>Shared room</option>
+    </select>
+    <input type="submit">
+</form>
+    </div>
+ 
