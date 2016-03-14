@@ -1,100 +1,93 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <style>
-            body{
-                background-color: azure;
-            }
-            #h1 {
-                color: black;
-                background-color:azure;
-                font-family: "arial";
-                font-size: 50px;
-                margin-left: 50px;
-                margin-right: 50px;
-                height: 100px;
-            }
-            #h2 {
-                color: grey;
-                background-color: white;
-                font-family: "arial";
-                font-size: 15px;
-                padding-left: 100px;
-                padding-right: 100px;
-                margin-left: 25px;
-                margin-right: 25px;
-            }
-            #button {
-                height: 50px;
-                background-color: lightblue;
-                font-size: 20px;
-                padding-left: 20px;
-                padding-bottom: 20px;
-                padding-right: 100px;
-                padding-top: 20px;
-                margin-left: 350px;
-                margin-right: 25px;
-                margin-top:10px;
-                font-family: "arial";
-            }
-        </style>
-    </head>
-    <body>
-        <div id="h1">
-        <p>
-        Evan Iacoboni
-        </p>
-        </div>
-        <div id="h2">
-        <p>
-        See open data showing AirBnB listings for Boston. This data is from NAME OF WEBSITE HERE. Click on the buttons bellow to filter the listing data.
-        </p>
-        </div>
-        <iframe width="100%" height="520" frameborder="0" src="https://eiacoboni.cartodb.com/viz/1a307ae0-dda9-11e5-98e0-0ecfd53eb7d3/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
-        <div id="button">
-    Bed Type:
-<form action="bedtype.php">
-    <select name="Bed Type">
-        <option>Real Bed</option>
-        <option>Air Bed</option>
-        <option>Couch</option>
-        <option>Futon</option>
-        <option>Pull-out</option>
-    </select>
-    <input type="submit">
+  <head>
+    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <!--
+    Load CartoDB's code so we can pull in our CartoDB maps.
+    -->
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+    
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+      }
+        #title {
+        height: 50px;
+        width: 100%;
+        background-color: violet
+        font-family: "arial";
+        font-size: 50px;        
+        }
+        
+        #map {
+        height: 100%;
+        width: 100%;
+      }
+      .neighbourhood {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+      }
+    </style>
+
+    <script>
+      var dataLayer;
+      $(document).ready(function () {
+        //
+        // Initialize map from CartoDB: create the map and store the data layer for later
+        //
+        cartodb.createVis('map','https://eiacoboni.cartodb.com/api/v2/viz/1a307ae0-dda9-11e5-98e0-0ecfd53eb7d3/viz.json')
+          .done(function (vis, layers) {
+            // Store the data layer for later:
+            //  * layers[0] is the base layer (eg OpenStreetMap)
+            //  * layers[1] is where all of your data layers go, and they're stored as "sublayers". The first one is numbered 0, the second is 1, etc. In this case we're getting the first sublayer.
+            dataLayer = layers[1].getSubLayer(0);
+          });
+
+        //
+        // Initialize the borough picker: add an event handler to watch for changes
+        //
+        $('.neighbourhood').change(function () {
+          var neighbourhood = $(this).val();
+          var sql;
+          if (neighbourhood === 'all') {
+            // if borough is 'all', reset SQL to the original
+            sql = "SELECT * FROM listings";
+          }
+          else {
+            // else, select only features with the borough field set to the chosen borough
+            sql = "SELECT * FROM listings WHERE neighbourhood = '" + neighbourhood + "'";
+          }
+          dataLayer.setSQL(sql);
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="title">
+    <p> AirBnB Listings for Boston</p>
     </div>
-    <div id="button">
-    Neighborhood:
-<form action="neighborhood.php">
-    <select name="Neighborhood">
-        <option>North End</option>
-        <option>Roxbury</option>
-        <option>Jamaica Plain</option>
-        <option>Mission Hill</option>
-        <option>Chinatown</option>
-        <option>Roslindale</option>
-        <option>South End</option>
-        <option>Roxbury</option>
-        <option>East End</option>
-        <option>Back Bay</option>
-        <option>West End</option>
-        <option>Fenway</option>
-        <option>Brighton</option>
-        <option>Dorchester</option>
-        <option>Hyde Park</option>
+    <div id="map"></div>
+    <select class="neighbourhood">
+      <option value="all">All Neighbourhoods</option>
+          <option value="North Ens">North End</option>
+        <option value="Roxbury">Roxbury</option>
+        <option value="Jamaica Plain">Jamaica Plain</option>
+        <option value="Mission Hill">Mission Hill</option>
+        <option value="Chinatown">Chinatown</option>
+        <option value="Roslindale">Roslindale</option>
+        <option vale="South End">South End</option>
+        <option value="East End">East End</option>
+        <option value="Back Bay">Back Bay</option>
+        <option value="West End">West End</option>
+        <option value ="Fenway">Fenway</option>
+        <option value="Brighton">Brighton</option>
+        <option value="Dorchester">Dorchester</option>
+        <option value="Hyde Park">Hyde Park</option>
     </select>
-    <input type="submit">
-</form>
-    </div>
-    <div id="button">
-    Type:
-<form action="neighborhood.php">
-    <select name="Neighborhood">
-        <option>Private room (</option>
-        <option>Entire home/apt</option>
-        <option>Shared room</option>
-    </select>
-    <input type="submit">
-</form>
-    </div>
- 
+  </body>
+</html>
