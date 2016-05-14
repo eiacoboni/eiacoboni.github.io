@@ -1,0 +1,148 @@
+<html lang="en">
+  <head>
+    
+    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+   
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+    
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+      
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Work',     11],
+          ['Eat',      2],
+          ['Commute',  2],
+          ['Watch TV', 2],
+          ['Sleep',    7]
+        ]);
+
+        var options = {
+          title: 'Average Percent of Poverty Near Station'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+      
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Housing and Transit: Map </title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+
+    <!-- Custom styles for this template -->
+    <link href="justified-nav.css" rel="stylesheet">
+    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+
+ <style>
+     .map {
+        height: 400px;
+        width: 100%;
+      }
+      
+      .transitvillage_button {
+        position: absolute;
+        bottom: 15px;
+        left: 15px;
+      }
+     
+     .HUB_button {
+        position: absolute;
+        bottom: 15px;
+        left: 130px;
+     }
+     
+     .ALL_button {
+        position: absolute;
+        bottom: 15px;
+        left: 330px; 
+     }
+ </style>
+      
+    <script>
+      var dataLayer;
+      $(document).ready(function () {
+        cartodb.createVis('map', 'https://eiacoboni.cartodb.com/api/v2/viz/9d64260a-157b-11e6-824a-0e5db1731f59/viz.json')
+          .done(function (vis, layers) {
+            dataLayer = layers[1].getSubLayer(0);
+          });
+
+        $('.transitvillage_button').click(function () {
+          var sql = "SELECT * FROM single_family_housing_near_transit WHERE transit_village = 'Yes'";
+          dataLayer.setSQL(sql);
+        });
+          
+        $('.HUB_button').click(function () {
+        var sql = "SELECT * FROM single_family_housing_near_transit WHERE hub = 'Yes'";
+        dataLayer.setSQL(sql);
+        });
+        
+        $('.All_button').click(function () {
+        var sql = "SELECT * FROM single_family_housing_near_transit";
+        dataLayer.setSQL(sql);
+        }); 
+          
+      });
+    </script>
+      
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+  </head>
+    
+  <body>
+
+    <div class="container">
+
+      <!-- The justified navigation menu is meant for single line per list item.
+           Multiple lines will require custom code not provided by Bootstrap. -->
+      <div class="masthead">
+       
+        <nav>
+          <ul class="nav nav-justified">
+            <li><a href="file:///Users/Evan/Desktop/final_gis_website/bootstrap-3.3.6/docs/examples/justified-nav_home/index.html">Information on Project</a></li>
+            <li class="active"><a href="file:///Users/Evan/Desktop/final_gis_website/bootstrap-3.3.6/docs/examples/justified-nav_map/index.html">Housing & Poverty Near Transit</a></li>
+            <li><a href="file:///Users/Evan/Desktop/final_gis_website/bootstrap-3.3.6/docs/examples/justified-nav_staioninfo/index.html">Station Area Information</a></li>
+          </ul>
+        </nav>
+      </div>
+
+    <div id="map"></div>
+    
+    <button class="transitvillage_button">Transit Villages</button>
+        
+    <button class="HUB_button">Urban Transit Hub Tax Credit</button>
+    
+    <button class="ALL_button">All Stations</button>
+ 
+    </div> <!-- /container -->
+
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
